@@ -1,0 +1,13 @@
+<h1>Chat Details</h1>
+
+<div class="card">
+  <div class="card-body">
+    <p><strong>ID:</strong> <%= @chat.id %></p>
+    <p><strong>Sender:</strong> <%= @chat.sender.first_name %></p>
+    <p><strong>Receiver:</strong> <%= @chat.receiver.last_name %></p>
+    <p><strong>Created At:</strong> <%= @chat.created_at %></p>
+    <p><strong>Updated At:</strong> <%= @chat.updated_at %></p>
+    
+    <%= link_to 'Back to Chats', chats_path, class: 'btn btn-secondary' %>
+  </div>
+</div>

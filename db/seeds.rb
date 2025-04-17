@@ -13,12 +13,12 @@ User.destroy_all
 Chat.destroy_all
 Message.destroy_all
 
-first_names = ["Juan", "María", "Carlos", "Ana", "Luis", "Laura", "Pedro", "Sofía", "Diego", "Valentina"]
-last_names = ["Gómez", "Rodríguez", "Pérez", "García", "Martínez", "López", "Fernández", "González", "Díaz", "Torres"]
+first_names = ["Juan", "Matias", "Raton", "Cristian", "Lautaro", "Fermin", "Leandro", "Tomas", "Marcelo", "Ferran"]
+last_names = ["Herrera", "Rodríguez", "Pérez", "García", "Martínez", "López", "Fernández", "González", "Díaz", "Torres"]
 
 10.times do |i|
   User.create!(
-    email: "usuario#{i+1}@ejemplo.com",
+    email: "#{first_names[i].downcase}.#{last_names[i].downcase}@miuandes.cl",
     first_name: first_names[i],
     last_name: last_names[i],
     created_at: Time.now,
@@ -50,7 +50,7 @@ sample_messages = [
   "¿Recibiste mi último mensaje?",
   "Por favor llámame cuando puedas",
   "Feliz cumpleaños!",
-  "Confirmo que recibí el paquete"
+  "Hola soy Cristiano Ronaldo Siuuuuu necesito dinero porfavor depositame a ..."
 ]
 
 10.times do |i|
