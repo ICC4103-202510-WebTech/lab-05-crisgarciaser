@@ -1,5 +1,8 @@
 <h1>Messages</h1>
 
+<%= link_to 'New messages', new_message_path, class: 'btn btn-primary mb-4' %>
+
+
 <table class="table table-striped">
   <thead>
     <tr>
@@ -28,7 +31,8 @@
         <td>
           <%= link_to 'Show', message_path(message), class: 'btn btn-sm btn-primary' %>
         </td>
-      </tr>
+      </tr> 
     <% end %>
   </tbody>
 </table>
+

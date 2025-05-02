@@ -1,5 +1,8 @@
 <h1>Chats</h1>
 
+<%= link_to 'New chat', new_chat_path, class: 'btn btn-primary mb-4' %>
+
+
 <table class="table table-striped">
   <thead>
     <tr>
@@ -15,7 +18,9 @@
         <td><%= chat.sender.first_name %></td>
         <td><%= chat.receiver.first_name %></td>
         <td><%= link_to 'Show', chat_path(chat), class: 'btn btn-sm btn-primary' %></td>
-      </tr>
+      </tr>  
     <% end %>
   </tbody>
 </table>
+
+
