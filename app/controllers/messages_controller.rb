@@ -16,9 +16,22 @@ class MessagesController < ApplicationController
     if @message.save
       redirect_to @message, notice: 'Message was successfully created.'
     else
-      render :new
+      render :new, status: :unprocessable_entity
     end
   end
+
+  def edit
+    @message = Message.find(params[:id])
+  end
+
+  def update
+    @message = Message.find(params[:id])
+    if @message.update(message_params)
+      redirect_to @message
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end 
   
   private
   

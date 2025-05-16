@@ -8,7 +8,25 @@
     <p><strong>Email:</strong> <%= @user.email %></p>
     <p><strong>Created At:</strong> <%= @user.created_at %></p>
     <p><strong>Updated At:</strong> <%= @user.updated_at %></p>
-    
+
+    <h4 class="mt-4">Chats:</h4>
+    <ul>
+      <% @user.sent_chats.each do |chat| %>
+        <li>Sent to <%= chat.receiver.full_name %> (Chat #<%= chat.id %>)</li>
+      <% end %>
+      <% @user.received_chats.each do |chat| %>
+        <li>Received from <%= chat.sender.full_name %> (Chat #<%= chat.id %>)</li>
+      <% end %>
+    </ul>
+
+    <h4 class="mt-4">Messages Sent:</h4>
+    <ul>
+      <% @user.sent_messages.each do |message| %>
+        <li><%= message.body %> (in Chat #<%= message.chat_id %>)</li>
+      <% end %>
+    </ul>
+
+    <%= link_to 'Edit', edit_user_path(@user), class: 'btn btn-primary' %>
     <%= link_to 'Back to Users', users_path, class: 'btn btn-secondary' %>
   </div>
 </div>

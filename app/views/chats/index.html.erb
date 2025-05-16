@@ -17,7 +17,8 @@
         <td><%= chat.id %></td>
         <td><%= chat.sender.first_name %></td>
         <td><%= chat.receiver.first_name %></td>
-        <td><%= link_to 'Show', chat_path(chat), class: 'btn btn-sm btn-primary' %></td>
+        <td><%= link_to 'Show', chat_path(chat), class: 'btn btn-sm btn-primary' %>
+        <%= link_to 'Edit', edit_chat_path(chat), class: 'btn btn-sm btn-secondary' %></td>
       </tr>  
     <% end %>
   </tbody>

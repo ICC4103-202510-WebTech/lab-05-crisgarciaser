@@ -1,10 +1,27 @@
 <h1>New User</h1>
 
-<%= form_with model: @user, class: 'card p-4 shadow-sm' do |f| %>
-    <div class="mb-3">
-      <%= f.label :email, class: 'form-label' %>
-      <%= f.email_field :email, class: 'form-control' %>
+<%= form_with model: @user do |f| %>
+  <% if @user.errors.any? %>
+    <div class="alert alert-danger alert-dismissible fade show mb-4">
+      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      <h5>Corrige estos errores:</h5>
+      <ul class="mb-0">
+        <% @user.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
     </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= f.label :email, "Correo electrónico", class: 'form-label' %>
+    <%= f.email_field :email, class: "form-control #{'is-invalid' if @user.errors[:email].any?}" %>
+    <% @user.errors.full_messages_for(:email).each do |message| %>
+      <div class="invalid-feedback d-block">
+        <%= message %>
+      </div>
+    <% end %>
+  </div>
   
     <div class="mb-3">
       <%= f.label :first_name, "First name", class: 'form-label' %>
@@ -17,7 +34,6 @@
     </div>
   
     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-      <%= link_to 'Cancel', users_path, class: 'btn btn-outline-secondary me-md-2' %>
       <%= f.submit 'Create User', class: 'btn btn-primary' %>
     </div>
   <% end %>

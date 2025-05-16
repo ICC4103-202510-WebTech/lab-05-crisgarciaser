@@ -1,0 +1,53 @@
+<h1>Edit Message</h1>
+
+<div class="card shadow-sm p-4 col-md-8 mx-auto">
+  <%= form_with model: @message do |f| %>
+    <% if @message.errors.any? %>
+      <div class="alert alert-danger alert-dismissible fade show">
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        <h4 class="alert-heading"><%= pluralize(@message.errors.count, "error") %> prohibited this message from being saved:</h4>
+        <ul>
+          <% @message.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="row g-3">
+      <div class="col-md-6">
+        <%= f.label :chat_id, "Chat", class: 'form-label' %>
+        <%= f.select :chat_id, 
+                     Chat.all.collect { |c| ["Chat ##{c.id}", c.id] }, 
+                     {}, 
+                     class: "form-select #{'is-invalid' if @message.errors[:chat_id].any?}" %>
+      </div>
+
+      <div class="col-md-6">
+        <%= f.label :user_id, "Sender", class: 'form-label' %>
+        <%= f.select :user_id, 
+                     User.all.collect { |u| [u.full_name, u.id] }, 
+                     {}, 
+                     class: "form-select #{'is-invalid' if @message.errors[:user_id].any?}" %>
+      </div>
+
+      <div class="col-12">
+        <%= f.label :body, "Message", class: 'form-label' %>
+        <%= f.text_area :body, 
+                        rows: 4, 
+                        class: "form-control #{'is-invalid' if @message.errors[:body].any?}" %>
+        <% @message.errors.full_messages_for(:body).each do |message| %>
+          <div class="invalid-feedback d-block">
+            <%= message %>
+          </div>
+        <% end %>
+      </div>
+
+      <div class="col-12 text-end">
+        <%= f.submit 'Update Message', class: 'btn btn-primary' %>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<%= link_to 'Back', @message, class: 'btn btn-secondary mt-3' %>

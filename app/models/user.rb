@@ -8,5 +8,30 @@ class User < ApplicationRecord
         "#{first_name} #{last_name}".strip
       end
       
-    validates :email, presence: true, uniqueness: true
+    validates :email, 
+      presence: { message: "You must have an email" },
+      uniqueness: { message: "This email is already registered" },
+      format: { with: URI::MailTo::EMAIL_REGEXP, message: "Email must be valid" }
+    
+    validates :first_name, 
+      presence: { message: "First name is obligatory" }
+    
+    validates :last_name, 
+      presence: { message: "Last name is obligatory" }
+  
+    before_validation :strip_name
+    before_validation :titleize_name
+
+
+  private
+
+  def strip_name
+    self.first_name = first_name.strip if first_name.present?
+    self.last_name = last_name.strip if last_name.present?
+  end
+
+  def titleize_name
+    self.first_name = first_name.titleize if first_name.present?
+    self.last_name = last_name.titleize if last_name.present?
+end
 end

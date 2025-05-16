@@ -9,6 +9,7 @@
       <th>First Name</th>
       <th>Last Name</th>
       <th>Email</th>
+      <th>Messages Sent</th>
       <th>Actions</th>
     </tr>
   </thead>
@@ -19,10 +20,13 @@
         <td><%= user.first_name %></td>
         <td><%= user.last_name %></td>
         <td><%= user.email %></td>
-        <td><%= link_to 'Show', user_path(user), class: 'btn btn-sm btn-primary' %></td>
+        <td><%= user.sent_messages.count %></td>
+        <td>
+          <%= link_to 'Show', user_path(user), class: 'btn btn-sm btn-primary' %>
+          <%= link_to 'Edit', edit_user_path(user), class: 'btn btn-sm btn-secondary' %>
+        </td>
       </tr>  
     <% end %>
   </tbody>
 </table>
-
 

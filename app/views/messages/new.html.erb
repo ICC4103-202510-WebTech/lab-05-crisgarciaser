@@ -1,22 +1,43 @@
 <h1>New Message</h1>
 
 <div class="card shadow-sm p-4">
-
   <%= form_with model: @message do |f| %>
+
+    <% if @message.errors.any? %>
+      <div class="alert alert-danger alert-dismissible fade show mb-4">
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        <h5>The message could not be saved:</h5>
+        <ul class="mb-0">
+          <% @message.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
     <div class="row g-3">
       <div class="col-md-6">
         <%= f.label :chat_id, "Chat", class: 'form-label' %>
-        <%= f.select :chat_id, Chat.all.collect { |c| ["Chat ##{c.id}", c.id] }, {}, class: 'form-select' %>
+        <%= f.select :chat_id, Chat.all.collect { |c| ["Chat ##{c.id}", c.id] }, {}, class: "form-select #{'is-invalid' if @message.errors[:chat_id].any?}" %>
+        <% @message.errors.full_messages_for(:chat_id).each do |msg| %>
+          <div class="invalid-feedback d-block"><%= msg %></div>
+        <% end %>
       </div>
 
       <div class="col-md-6">
         <%= f.label :user_id, "Sender", class: 'form-label' %>
-        <%= f.select :user_id, User.all.collect { |u| [u.full_name, u.id] }, {}, class: 'form-select' %>
+        <%= f.select :user_id, User.all.collect { |u| [u.full_name, u.id] }, {}, class: "form-select #{'is-invalid' if @message.errors[:user_id].any?}" %>
+        <% @message.errors.full_messages_for(:user_id).each do |msg| %>
+          <div class="invalid-feedback d-block"><%= msg %></div>
+        <% end %>
       </div>
 
       <div class="col-12">
         <%= f.label :body, "Message", class: 'form-label' %>
-        <%= f.text_area :body, rows: 4, class: 'form-control' %>
+        <%= f.text_area :body, rows: 4, class: "form-control #{'is-invalid' if @message.errors[:body].any?}" %>
+        <% @message.errors.full_messages_for(:body).each do |msg| %>
+          <div class="invalid-feedback d-block"><%= msg %></div>
+        <% end %>
       </div>
 
       <div class="col-12 text-end">
@@ -26,4 +47,4 @@
   <% end %>
 </div>
 
-<%= link_to 'Back', messages_path, class: 'btn btn-secondary' %>
+<%= link_to 'Back', messages_path, class: 'btn btn-secondary mt-3' %>
