@@ -1,7 +1,6 @@
 <h1>Messages</h1>
 
-<%= link_to 'New messages', new_message_path, class: 'btn btn-primary mb-4' %>
-
+<%= link_to 'New Message', new_message_path, class: 'btn btn-primary mb-4' if can?(:create, Message) %>
 
 <table class="table table-striped">
   <thead>
@@ -10,28 +9,30 @@
       <th>Chat</th>
       <th>Sender</th>
       <th>Content</th>
-      <th>Receiver</th>
       <th>Actions</th>
     </tr>
   </thead>
   <tbody>
     <% @messages.each do |message| %>
-      <tr>
-        <td><%= message.id %></td>
-        <td>
-          <%= link_to "Chat ##{message.chat_id}", chat_path(message.chat) if message.chat %>
-        </td>
-        <td>
-          <%= message.chat.sender.first_name if message.chat && message.chat.sender %>
-        </td>
-        <td><%= message.body %></td>
-        <td>
-          <%= message.chat.receiver.first_name if message.chat && message.chat.receiver %>
-        </td>
-        <td><%= link_to 'Show', message_path(message), class: 'btn btn-sm btn-primary' %>
-        <%= link_to 'Edit', edit_message_path(message), class: 'btn btn-sm btn-secondary' %></td>
-      </tr> 
+      <% if can?(:read, message) %>
+        <tr>
+          <td><%= message.id %></td>
+          <td>
+            <%= link_to "Chat ##{message.chat_id}", chat_path(message.chat) if can?(:read, message.chat) %>
+          </td>
+          <td><%= message.user.full_name %></td>
+          <td><%= message.body %></td>
+          <td>
+            <%= link_to 'Show', message_path(message), class: 'btn btn-sm btn-primary' %>
+            <% if can?(:update, message) %>
+              <%= link_to 'Edit', edit_message_path(message), class: 'btn btn-sm btn-secondary' %>
+            <% end %>
+            <% if can?(:destroy, message) %>
+              <%= link_to 'Delete', message_path(message), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-sm btn-danger' %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
     <% end %>
   </tbody>
 </table>
-

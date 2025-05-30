@@ -1,4 +1,8 @@
 class User < ApplicationRecord
+  # Include default devise modules. Others available are:
+  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :validatable
     has_many :sent_messages, class_name: 'Message', foreign_key: 'user_id', dependent: :destroy
     has_many :sent_chats, class_name: 'Chat', foreign_key: 'sender_id', dependent: :destroy
     has_many :received_chats, class_name: 'Chat', foreign_key: 'receiver_id', dependent: :destroy
@@ -13,11 +17,11 @@ class User < ApplicationRecord
       uniqueness: { message: "This email is already registered" },
       format: { with: URI::MailTo::EMAIL_REGEXP, message: "Email must be valid" }
     
-    validates :first_name, 
-      presence: { message: "First name is obligatory" }
+    #validates :first_name, 
+      #presence: { message: "First name is obligatory" }
     
-    validates :last_name, 
-      presence: { message: "Last name is obligatory" }
+    #validates :last_name, 
+      #presence: { message: "Last name is obligatory" }
   
     before_validation :strip_name
     before_validation :titleize_name

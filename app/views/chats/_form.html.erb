@@ -1,0 +1,33 @@
+<%= form_with model: @chat do |f| %>
+  <% if @chat.errors.any? %>
+    <div class="alert alert-danger alert-dismissible fade show">
+      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      <h4 class="alert-heading"><%= pluralize(@chat.errors.count, "error") %> prohibited this chat from being saved:</h4>
+      <ul>
+        <% @chat.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= f.label :receiver_id, "Receiver", class: 'form-label' %>
+    <%= f.select :receiver_id,
+                 User.where.not(id: current_user.id).collect { |u| [u.full_name, u.id] },
+                 {},
+                 class: "form-select #{'is-invalid' if @chat.errors[:receiver_id].any?}" %>
+    <% @chat.errors.full_messages_for(:receiver_id).each do |message| %>
+      <div class="invalid-feedback d-block">
+        <%= message %>
+      </div>
+    <% end %>
+  </div>
+
+  <%= f.hidden_field :sender_id, value: current_user.id %>
+
+  <div class="d-grid">
+    <%= f.submit @chat.new_record? ? 'Start Chat' : 'Update Chat',
+                 class: @chat.new_record? ? 'btn btn-primary' : 'btn btn-primary' %>
+  </div>
+<% end %>

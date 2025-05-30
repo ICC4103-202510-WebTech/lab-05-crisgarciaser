@@ -12,14 +12,16 @@
     <ul>
       <% @chat.messages.each do |message| %>
         <li>
-          <strong><%= message.user.full_name %>:</strong> 
+          <strong><%= message.user.full_name %>:</strong>
           <%= message.body %>
           <small>(<%= message.created_at %>)</small>
         </li>
       <% end %>
     </ul>
 
-    <%= link_to 'Edit', edit_chat_path(@chat), class: 'btn btn-primary' %>
+    <% if can?(:update, @chat) %>
+      <%= link_to 'Edit', edit_chat_path(@chat), class: 'btn btn-primary' %>
+    <% end %>
     <%= link_to 'Back to Chats', chats_path, class: 'btn btn-secondary' %>
   </div>
 </div>
