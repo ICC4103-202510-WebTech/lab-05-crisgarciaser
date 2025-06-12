@@ -2,8 +2,13 @@ class MessagesController < ApplicationController
   before_action :authenticate_user!
   load_and_authorize_resource
   def index
-    @messages = Message.includes(chat: [:sender, :receiver]).all
+    @messages = Message.joins(:chat)
+                      .where(chats: { sender_id: current_user.id })
+                      .or(Message.joins(:chat)
+                      .where(chats: { receiver_id: current_user.id }))
+                      .includes(:user, chat: [:sender, :receiver])
   end
+
 
   def show
     @message = Message.includes(chat: [:sender, :receiver]).find(params[:id])

@@ -1,7 +1,9 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
   def index
-    @users = User.all
+    if cannot? :manage, User
+      redirect_to chats_path, alert: "Not authorized"
+      return
   end
 
   def show
@@ -39,4 +41,5 @@ class UsersController < ApplicationController
   def user_params
     params.require(:user).permit(:first_name, :last_name, :email)
   end
+end
 end

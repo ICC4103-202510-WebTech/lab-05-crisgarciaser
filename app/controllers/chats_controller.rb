@@ -2,7 +2,8 @@ class ChatsController < ApplicationController
  before_action :authenticate_user!
  load_and_authorize_resource
   def index
-    @chats = Chat.includes(:sender, :receiver).all
+        @chats = Chat.participating(current_user)
+                 .includes(:sender, :receiver, :messages)
   end
 
   def show

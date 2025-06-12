@@ -7,6 +7,13 @@ class Chat < ApplicationRecord
       presence: { message: "You must have a sender and a receiver" }
     validate :cannot_chat_with_self
 
+    scope :participating, ->(user) {
+      where("sender_id = ? OR receiver_id = ?", user.id, user.id)
+    }
+    def other_participant(current_user)
+      current_user == sender ? receiver : sender
+    end
+
     private
     
     def cannot_chat_with_self

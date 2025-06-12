@@ -1,31 +1,31 @@
-<h1>Chats</h1>
+<h1>My Inbox</h1>
 
-<%= link_to 'New chat', new_chat_path, class: 'btn btn-primary mb-4' if can?(:create, Chat) %>
 
+<%= link_to 'New Chat', new_chat_path, class: 'btn btn-primary mb-4' if can?(:create, Chat) %>
 <table class="table table-striped">
   <thead>
     <tr>
-      <th>ID</th>
-      <th>Sender</th>
-      <th>Receiver</th>
+      <th>With</th>
+      <th>Last Message</th>
       <th>Actions</th>
     </tr>
   </thead>
   <tbody>
     <% @chats.each do |chat| %>
-      <% if can?(:read, chat) %>
-        <tr>
-          <td><%= chat.id %></td>
-          <td><%= chat.sender.first_name %></td>
-          <td><%= chat.receiver.first_name %></td>
-          <td>
-            <%= link_to 'Show', chat_path(chat), class: 'btn btn-sm btn-primary' %>
-            <% if can?(:update, chat) %>
-              <%= link_to 'Edit', edit_chat_path(chat), class: 'btn btn-sm btn-secondary' %>
-            <% end %>
-          </td>
-        </tr>
-      <% end %>
+      <tr>
+        <td><%= chat.other_participant(current_user).full_name %></td>
+        <td>
+          <% if last_message = chat.messages.last %>
+            <%= truncate(last_message.body, length: 50) %>
+            <small class="text-muted"><%= time_ago_in_words(last_message.created_at) %> ago</small>
+          <% else %>
+            No messages yet
+          <% end %>
+        </td>
+        <td>
+          <%= link_to 'View', chat_path(chat), class: 'btn btn-sm btn-primary' %>
+        </td>
+      </tr>
     <% end %>
   </tbody>
 </table>

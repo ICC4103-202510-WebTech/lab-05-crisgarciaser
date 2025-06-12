@@ -21,7 +21,7 @@
 
     <% if can?(:update, @chat) %>
       <%= link_to 'Edit', edit_chat_path(@chat), class: 'btn btn-primary' %>
-    <% end %>
+      <% end %>
     <%= link_to 'Back to Chats', chats_path, class: 'btn btn-secondary' %>
   </div>
 </div>
